@@ -46,14 +46,14 @@ pub type Summary = generic::Summary<Hash, Id>;
 pub trait Context {
 	/// Whether a authority is a member of a group.
 	/// Members are meant to submit candidates and vote on validity.
-	fn is_member_of(&self, authority: &ValidatorId, group: &Id) -> bool;
+	fn is_member_of(&self, authority: usize, group: &Id) -> bool;
 
 	// requisite number of votes for validity from a group.
 	fn requisite_votes(&self, group: &Id) -> usize;
 }
 
 impl<C: Context> generic::Context for C {
-	type AuthorityId = ValidatorId;
+	type AuthorityId = usize;
 	type Digest = Hash;
 	type GroupId = Id;
 	type Signature = ValidatorSignature;
@@ -67,8 +67,8 @@ impl<C: Context> generic::Context for C {
 		candidate.parachain_index.clone()
 	}
 
-	fn is_member_of(&self, authority: &ValidatorId, group: &Id) -> bool {
-		Context::is_member_of(self, authority, group)
+	fn is_member_of(&self, authority: &Self::AuthorityId, group: &Id) -> bool {
+		Context::is_member_of(self, *authority, group)
 	}
 
 	fn requisite_votes(&self, group: &Id) -> usize {
