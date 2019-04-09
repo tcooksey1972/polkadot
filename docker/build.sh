@@ -3,7 +3,7 @@ set -e
 
 pushd .
 
-# The following line ensure we run from the project root
+# The following line ensure we run from the project root start
 PROJECT_ROOT=`git rev-parse --show-toplevel`
 cd $PROJECT_ROOT
 
